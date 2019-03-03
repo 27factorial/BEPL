@@ -1,5 +1,7 @@
 # BasIc English-like Programming Language #
 
+## ***NOTE: This documentation is nowhere near complete, and neither is the language. use both at your own risk.*** ##
+
 This is a document detailing the usage and syntax of the Basic English-like
 Programming Language, or BEPL for short. The language is implemented in Java,
 and is meant to be easy to read and write by humans, while also providing many
