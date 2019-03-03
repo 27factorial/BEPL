@@ -38,12 +38,12 @@ operation : INT OPERATOR (operation | INT)                          // Arithmeti
 /**
  * Lexer Rules
  */
-STRING : '"' ([\u0020-\u007E]+)? '"' ;                                 // ASCII Character range.
+STRING : '"' ([\u0020-\u007E]+)? '"' ;                              // ASCII Character range.
 VAR    : [a-zA-Z_]+ ;                                               // Lowercase letters, Uppercase letters, and an underscore.
 INT    : [0-9]+ ;                                                   // Any combination of the numbers 0-9.
 OPERATOR : '+'                                                      // Basic math operators.
-		 | '-'
-		 | '*'
+         | '-'
+         | '*'
          | '/'
          ;
 
