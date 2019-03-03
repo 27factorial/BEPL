@@ -1,0 +1,9 @@
+T__0=1
+T__1=2
+STRING=3
+VAR=4
+INT=5
+OPERATOR=6
+WS=7
+'is'=1
+'print'=2

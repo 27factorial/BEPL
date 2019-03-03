@@ -1,0 +1,5 @@
+a is 100
+b is 100 - 20
+print "Hello, World!"
+print a
+print b
