@@ -226,7 +226,10 @@ public class BEPLParser extends Parser {
 	}
 
 	public static class AssignContext extends ParserRuleContext {
-		public TerminalNode VAR() { return getToken(BEPLParser.VAR, 0); }
+		public List<TerminalNode> VAR() { return getTokens(BEPLParser.VAR); }
+		public TerminalNode VAR(int i) {
+			return getToken(BEPLParser.VAR, i);
+		}
 		public OperationContext operation() {
 			return getRuleContext(OperationContext.class,0);
 		}
@@ -256,7 +259,7 @@ public class BEPLParser extends Parser {
 			match(VAR);
 			setState(21);
 			match(T__0);
-			setState(25);
+			setState(26);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
@@ -275,6 +278,12 @@ public class BEPLParser extends Parser {
 				{
 				setState(24);
 				match(INT);
+				}
+				break;
+			case 4:
+				{
+				setState(25);
+				match(VAR);
 				}
 				break;
 			}
@@ -318,32 +327,32 @@ public class BEPLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(27);
+			setState(28);
 			match(T__1);
-			setState(32);
+			setState(33);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				{
-				setState(28);
+				setState(29);
 				operation();
 				}
 				break;
 			case 2:
 				{
-				setState(29);
+				setState(30);
 				match(STRING);
 				}
 				break;
 			case 3:
 				{
-				setState(30);
+				setState(31);
 				match(INT);
 				}
 				break;
 			case 4:
 				{
-				setState(31);
+				setState(32);
 				match(VAR);
 				}
 				break;
@@ -390,22 +399,22 @@ public class BEPLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(34);
-			match(INT);
 			setState(35);
+			match(INT);
+			setState(36);
 			match(OPERATOR);
-			setState(38);
+			setState(39);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				{
-				setState(36);
+				setState(37);
 				operation();
 				}
 				break;
 			case 2:
 				{
-				setState(37);
+				setState(38);
 				match(INT);
 				}
 				break;
@@ -424,18 +433,19 @@ public class BEPLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t+\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t,\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\6\2\16\n\2\r\2\16\2\17\3\3\3\3\3\3\5\3"+
-		"\25\n\3\3\4\3\4\3\4\3\4\3\4\5\4\34\n\4\3\5\3\5\3\5\3\5\3\5\5\5#\n\5\3"+
-		"\6\3\6\3\6\3\6\5\6)\n\6\3\6\2\2\7\2\4\6\b\n\2\2\2.\2\r\3\2\2\2\4\24\3"+
-		"\2\2\2\6\26\3\2\2\2\b\35\3\2\2\2\n$\3\2\2\2\f\16\5\4\3\2\r\f\3\2\2\2\16"+
-		"\17\3\2\2\2\17\r\3\2\2\2\17\20\3\2\2\2\20\3\3\2\2\2\21\25\5\6\4\2\22\25"+
-		"\5\b\5\2\23\25\5\n\6\2\24\21\3\2\2\2\24\22\3\2\2\2\24\23\3\2\2\2\25\5"+
-		"\3\2\2\2\26\27\7\6\2\2\27\33\7\3\2\2\30\34\5\n\6\2\31\34\7\5\2\2\32\34"+
-		"\7\7\2\2\33\30\3\2\2\2\33\31\3\2\2\2\33\32\3\2\2\2\34\7\3\2\2\2\35\"\7"+
-		"\4\2\2\36#\5\n\6\2\37#\7\5\2\2 #\7\7\2\2!#\7\6\2\2\"\36\3\2\2\2\"\37\3"+
-		"\2\2\2\" \3\2\2\2\"!\3\2\2\2#\t\3\2\2\2$%\7\7\2\2%(\7\b\2\2&)\5\n\6\2"+
-		"\')\7\7\2\2(&\3\2\2\2(\'\3\2\2\2)\13\3\2\2\2\7\17\24\33\"(";
+		"\25\n\3\3\4\3\4\3\4\3\4\3\4\3\4\5\4\35\n\4\3\5\3\5\3\5\3\5\3\5\5\5$\n"+
+		"\5\3\6\3\6\3\6\3\6\5\6*\n\6\3\6\2\2\7\2\4\6\b\n\2\2\2\60\2\r\3\2\2\2\4"+
+		"\24\3\2\2\2\6\26\3\2\2\2\b\36\3\2\2\2\n%\3\2\2\2\f\16\5\4\3\2\r\f\3\2"+
+		"\2\2\16\17\3\2\2\2\17\r\3\2\2\2\17\20\3\2\2\2\20\3\3\2\2\2\21\25\5\6\4"+
+		"\2\22\25\5\b\5\2\23\25\5\n\6\2\24\21\3\2\2\2\24\22\3\2\2\2\24\23\3\2\2"+
+		"\2\25\5\3\2\2\2\26\27\7\6\2\2\27\34\7\3\2\2\30\35\5\n\6\2\31\35\7\5\2"+
+		"\2\32\35\7\7\2\2\33\35\7\6\2\2\34\30\3\2\2\2\34\31\3\2\2\2\34\32\3\2\2"+
+		"\2\34\33\3\2\2\2\35\7\3\2\2\2\36#\7\4\2\2\37$\5\n\6\2 $\7\5\2\2!$\7\7"+
+		"\2\2\"$\7\6\2\2#\37\3\2\2\2# \3\2\2\2#!\3\2\2\2#\"\3\2\2\2$\t\3\2\2\2"+
+		"%&\7\7\2\2&)\7\b\2\2\'*\5\n\6\2(*\7\7\2\2)\'\3\2\2\2)(\3\2\2\2*\13\3\2"+
+		"\2\2\7\17\24\34#)";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
