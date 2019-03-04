@@ -30,7 +30,7 @@ statement : assign                                                  // Statement
           | print                                                   // print something,
           | operation                                               // or do an operation.
           ;
-assign    : VAR 'is' (operation | STRING | INT) ;                   // Implemented as a HashMap<String, BEPLType<?>>
+assign    : VAR 'is' (operation | STRING | INT | VAR) ;             // Implemented as a HashMap<String, BEPLType<?>>
 print     : 'print' (operation | STRING | INT | VAR) ;              // Analogous to System.out.println();
 operation : INT OPERATOR (operation | INT)                          // Arithmetic implementation.
           ;
@@ -48,4 +48,3 @@ OPERATOR : '+'                                                      // Basic mat
          ;
 
 WS : [ \r\n\t]+ -> skip ;                                           // Ignore whitespace.
-
