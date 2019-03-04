@@ -29,7 +29,7 @@ public class BEPLCustomListener extends BEPLBaseListener {
      */
     private int getOperationResult(BEPLParser.OperationContext ctx) {
         BEPLParser.OperationContext currentOperationCtx = ctx; // Beginning context.
-        BEPLParser.OperationContext previousOperationCtx = ctx;
+        BEPLParser.OperationContext previousOperationCtx = ctx; // Previous context. Used to keep track of the operator.
 
         int total = 0;
 
@@ -69,7 +69,23 @@ public class BEPLCustomListener extends BEPLBaseListener {
 
         return total;
     }
-
+    
+    private BEPLType<?> cloneVariableAssign(BEPLParser.AssignContext ctx) {
+        String name = ctx.VAR(1).getText();
+        BEPLType<?> toBeCloned = variables.get(name);
+        
+        if (toBeCloned == null) {
+            String var0 = ctx.VAR(0).getText();
+            String var1 = ctx.VAR(1).getText();
+            throw new BEPLInterpreterException("`" + var0 + "`" + " cannot be assigned to " + 
+                                               "`" + var1 + "`" + " because " + 
+                                               "`" + var1 + "`" + " does not exist!");
+        }
+            
+        
+        return toBeCloned.clone();
+    }
+    
     public BEPLCustomListener() {
         variables = new HashMap<>();
     }
@@ -98,7 +114,7 @@ public class BEPLCustomListener extends BEPLBaseListener {
 
     @Override
     public void exitAssign(BEPLParser.AssignContext ctx) {
-        String name = ctx.VAR().getText();
+        String name = ctx.VAR(0).getText();
         BEPLType<?> value;
 
         if (ctx.operation() != null) {
@@ -107,6 +123,8 @@ public class BEPLCustomListener extends BEPLBaseListener {
             value = new BEPLString(ctx.STRING().getText());
         } else if (ctx.INT() != null) {
             value = new BEPLInteger(Integer.parseInt(ctx.INT().getText()));
+        } else if (ctx.VAR(1) != null) {
+            value = cloneVariableAssign(ctx);
         } else {
             value = null;
         }
