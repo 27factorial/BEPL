@@ -13,7 +13,6 @@
 package org.bepl.types;
 
 public final class BEPLString extends BEPLType<String> {
-    public static final String TYPE = "String";
     private String value;
 
     public BEPLString(String value) {
@@ -38,5 +37,9 @@ public final class BEPLString extends BEPLType<String> {
     
     public BEPLString clone() {
         return new BEPLString(value);
+    }
+    
+    public String getType() {
+    	return "String";
     }
 }

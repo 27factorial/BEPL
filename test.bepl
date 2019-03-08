@@ -1,5 +1,8 @@
-a is 100
-b is 100 - 20
-print "Hello, World!"
+# this is a comment
+# test test test
+
+a is 5
+bnjlfkjgjheruogi is "Hello, World"
 print a
 print b
+print 1+1+1+1*2

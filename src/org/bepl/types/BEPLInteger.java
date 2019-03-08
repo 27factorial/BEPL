@@ -13,7 +13,6 @@
 package org.bepl.types;
 
 public final class BEPLInteger extends BEPLType<Integer> {
-    public static final String TYPE = "Integer";
     private Integer value;
 
     public BEPLInteger(Integer value) {
@@ -34,5 +33,9 @@ public final class BEPLInteger extends BEPLType<Integer> {
     
     public BEPLInteger clone() {
         return new BEPLInteger(value);
+    }
+    
+    public String getType() {
+    	return "Integer";
     }
 }

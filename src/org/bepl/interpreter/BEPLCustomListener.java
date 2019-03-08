@@ -14,6 +14,7 @@ package org.bepl.interpreter;
 
 import java.util.HashMap;
 
+import org.bepl.interpreter.types.BEPLInterpreterException;
 import org.bepl.types.*;
 
 public class BEPLCustomListener extends BEPLBaseListener {
@@ -28,7 +29,7 @@ public class BEPLCustomListener extends BEPLBaseListener {
      * @return the result of the operator sequence.
      */
     private int getOperationResult(BEPLParser.OperationContext ctx) {
-        BEPLParser.OperationContext currentOperationCtx = ctx; // Beginning context.
+        BEPLParser.OperationContext currentOperationCtx = ctx; // Beginning context. Keeps track of VAR(0)
         BEPLParser.OperationContext previousOperationCtx = ctx; // Previous context. Used to keep track of the operator.
 
         int total = 0;
@@ -84,6 +85,19 @@ public class BEPLCustomListener extends BEPLBaseListener {
             
         
         return toBeCloned.clone();
+    }
+    
+    private BEPLType<?> cloneVariablePrint(BEPLParser.PrintContext ctx) {
+    	String name = ctx.VAR().getText();
+    	BEPLType<?> toBeCloned = variables.get(name);
+    	
+    	if (toBeCloned == null) {
+    		String var0 = name;
+    		throw new BEPLInterpreterException("`" + var0 + "`" +
+    										   "could not be printed because it does not exist!");
+    	}
+    	
+    	return toBeCloned.clone();
     }
     
     public BEPLCustomListener() {
@@ -149,13 +163,15 @@ public class BEPLCustomListener extends BEPLBaseListener {
     @Override
     public void exitPrint(BEPLParser.PrintContext ctx) {
         if (ctx.operation() != null) {
-            System.out.println(ctx.operation());
+            System.out.println(getOperationResult(ctx.operation()));
         } else if (ctx.STRING() != null) {
             System.out.println(new BEPLString(ctx.STRING().getText()));
         } else if (ctx.VAR() != null) {
-            System.out.println(variables.get(ctx.VAR().getText()));
-        } else {
+            System.out.println(cloneVariablePrint(ctx));
+        } else if (ctx.INT() != null) {
             System.out.println(ctx.INT().getText());
+        } else {
+        	throw new BEPLInterpreterException("Print statement is empty!");
         }
 
         // DEBUG

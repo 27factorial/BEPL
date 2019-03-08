@@ -24,7 +24,7 @@ package org.bepl.interpreter;
 /**
  * Parser Rules
  */
-program : statement+ ;                                              // A full program consists of _at least_ one statement.
+program : statement* ;                                              // A full program consists of zero or more statements.
 
 statement : assign                                                  // Statement: Can either assign a variable,
           | print                                                   // print something,
@@ -38,13 +38,23 @@ operation : INT OPERATOR (operation | INT)                          // Arithmeti
 /**
  * Lexer Rules
  */
-STRING : '"' ([\u0020-\u007E]+)? '"' ;                              // ASCII Character range.
-VAR    : [a-zA-Z_]+ ;                                               // Lowercase letters, Uppercase letters, and an underscore.
-INT    : [0-9]+ ;                                                   // Any combination of the numbers 0-9.
+STRING   : '"' .*? '"' ;                                            // Zero or more characters, up to the quotation mark.
+VAR      : [a-zA-Z_]+ ;                                             // Lowercase letters, Uppercase letters, and an underscore.
+INT      : DIGIT+ ;                                                 // Any combination of the numbers 0-9.
 OPERATOR : '+'                                                      // Basic math operators.
          | '-'
          | '*'
          | '/'
          ;
 
-WS : [ \r\n\t]+ -> skip ;                                           // Ignore whitespace.
+/**
+ * Fragments
+ */
+fragment DIGIT : [0-9] ;
+
+/**
+ * Skip these rules.
+ */
+SINGLELINE_COMMENT : '#' .*? [\r\n] -> skip ;                         // Ignore everything past a # character on the same line.
+MULTILINE_COMMENT  : '###' .*? '###' -> skip ;                        // Ignore multi line comments.
+WS                 : [ \r\n\t]+ -> skip ;                             // Ignore whitespace.

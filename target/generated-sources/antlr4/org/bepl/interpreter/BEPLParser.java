@@ -30,7 +30,8 @@ public class BEPLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, STRING=3, VAR=4, INT=5, OPERATOR=6, WS=7;
+		T__0=1, T__1=2, STRING=3, VAR=4, INT=5, OPERATOR=6, SINGLELINE_COMMENT=7, 
+		MULTILINE_COMMENT=8, WS=9;
 	public static final int
 		RULE_program = 0, RULE_statement = 1, RULE_assign = 2, RULE_print = 3, 
 		RULE_operation = 4;
@@ -49,7 +50,8 @@ public class BEPLParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, "STRING", "VAR", "INT", "OPERATOR", "WS"
+			null, null, null, "STRING", "VAR", "INT", "OPERATOR", "SINGLELINE_COMMENT", 
+			"MULTILINE_COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -131,20 +133,20 @@ public class BEPLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(11); 
+			setState(13);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			do {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << VAR) | (1L << INT))) != 0)) {
 				{
 				{
 				setState(10);
 				statement();
 				}
 				}
-				setState(13); 
+				setState(15);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << VAR) | (1L << INT))) != 0) );
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -186,27 +188,27 @@ public class BEPLParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_statement);
 		try {
-			setState(18);
+			setState(19);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case VAR:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(15);
+				setState(16);
 				assign();
 				}
 				break;
 			case T__1:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(16);
+				setState(17);
 				print();
 				}
 				break;
 			case INT:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(17);
+				setState(18);
 				operation();
 				}
 				break;
@@ -255,34 +257,34 @@ public class BEPLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(20);
-			match(VAR);
 			setState(21);
+			match(VAR);
+			setState(22);
 			match(T__0);
-			setState(26);
+			setState(27);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
-				setState(22);
+				setState(23);
 				operation();
 				}
 				break;
 			case 2:
 				{
-				setState(23);
+				setState(24);
 				match(STRING);
 				}
 				break;
 			case 3:
 				{
-				setState(24);
+				setState(25);
 				match(INT);
 				}
 				break;
 			case 4:
 				{
-				setState(25);
+				setState(26);
 				match(VAR);
 				}
 				break;
@@ -327,32 +329,32 @@ public class BEPLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
+			setState(29);
 			match(T__1);
-			setState(33);
+			setState(34);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				{
-				setState(29);
+				setState(30);
 				operation();
 				}
 				break;
 			case 2:
 				{
-				setState(30);
+				setState(31);
 				match(STRING);
 				}
 				break;
 			case 3:
 				{
-				setState(31);
+				setState(32);
 				match(INT);
 				}
 				break;
 			case 4:
 				{
-				setState(32);
+				setState(33);
 				match(VAR);
 				}
 				break;
@@ -399,22 +401,22 @@ public class BEPLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
-			match(INT);
 			setState(36);
+			match(INT);
+			setState(37);
 			match(OPERATOR);
-			setState(39);
+			setState(40);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				{
-				setState(37);
+				setState(38);
 				operation();
 				}
 				break;
 			case 2:
 				{
-				setState(38);
+				setState(39);
 				match(INT);
 				}
 				break;
@@ -433,19 +435,19 @@ public class BEPLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t,\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\6\2\16\n\2\r\2\16\2\17\3\3\3\3\3\3\5\3"+
-		"\25\n\3\3\4\3\4\3\4\3\4\3\4\3\4\5\4\35\n\4\3\5\3\5\3\5\3\5\3\5\5\5$\n"+
-		"\5\3\6\3\6\3\6\3\6\5\6*\n\6\3\6\2\2\7\2\4\6\b\n\2\2\2\60\2\r\3\2\2\2\4"+
-		"\24\3\2\2\2\6\26\3\2\2\2\b\36\3\2\2\2\n%\3\2\2\2\f\16\5\4\3\2\r\f\3\2"+
-		"\2\2\16\17\3\2\2\2\17\r\3\2\2\2\17\20\3\2\2\2\20\3\3\2\2\2\21\25\5\6\4"+
-		"\2\22\25\5\b\5\2\23\25\5\n\6\2\24\21\3\2\2\2\24\22\3\2\2\2\24\23\3\2\2"+
-		"\2\25\5\3\2\2\2\26\27\7\6\2\2\27\34\7\3\2\2\30\35\5\n\6\2\31\35\7\5\2"+
-		"\2\32\35\7\7\2\2\33\35\7\6\2\2\34\30\3\2\2\2\34\31\3\2\2\2\34\32\3\2\2"+
-		"\2\34\33\3\2\2\2\35\7\3\2\2\2\36#\7\4\2\2\37$\5\n\6\2 $\7\5\2\2!$\7\7"+
-		"\2\2\"$\7\6\2\2#\37\3\2\2\2# \3\2\2\2#!\3\2\2\2#\"\3\2\2\2$\t\3\2\2\2"+
-		"%&\7\7\2\2&)\7\b\2\2\'*\5\n\6\2(*\7\7\2\2)\'\3\2\2\2)(\3\2\2\2*\13\3\2"+
-		"\2\2\7\17\24\34#)";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\13-\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\7\2\16\n\2\f\2\16\2\21\13\2\3\3\3\3\3\3"+
+		"\5\3\26\n\3\3\4\3\4\3\4\3\4\3\4\3\4\5\4\36\n\4\3\5\3\5\3\5\3\5\3\5\5\5"+
+		"%\n\5\3\6\3\6\3\6\3\6\5\6+\n\6\3\6\2\2\7\2\4\6\b\n\2\2\2\61\2\17\3\2\2"+
+		"\2\4\25\3\2\2\2\6\27\3\2\2\2\b\37\3\2\2\2\n&\3\2\2\2\f\16\5\4\3\2\r\f"+
+		"\3\2\2\2\16\21\3\2\2\2\17\r\3\2\2\2\17\20\3\2\2\2\20\3\3\2\2\2\21\17\3"+
+		"\2\2\2\22\26\5\6\4\2\23\26\5\b\5\2\24\26\5\n\6\2\25\22\3\2\2\2\25\23\3"+
+		"\2\2\2\25\24\3\2\2\2\26\5\3\2\2\2\27\30\7\6\2\2\30\35\7\3\2\2\31\36\5"+
+		"\n\6\2\32\36\7\5\2\2\33\36\7\7\2\2\34\36\7\6\2\2\35\31\3\2\2\2\35\32\3"+
+		"\2\2\2\35\33\3\2\2\2\35\34\3\2\2\2\36\7\3\2\2\2\37$\7\4\2\2 %\5\n\6\2"+
+		"!%\7\5\2\2\"%\7\7\2\2#%\7\6\2\2$ \3\2\2\2$!\3\2\2\2$\"\3\2\2\2$#\3\2\2"+
+		"\2%\t\3\2\2\2&\'\7\7\2\2\'*\7\b\2\2(+\5\n\6\2)+\7\7\2\2*(\3\2\2\2*)\3"+
+		"\2\2\2+\13\3\2\2\2\7\17\25\35$*";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -13,11 +13,19 @@
 package org.bepl.types;
 
 public abstract class BEPLType<T> implements Cloneable {
-    public static String TYPE;
     protected T value;
     
     public abstract void setValue(T newValue);
     public abstract T getValue();
     public abstract String toString();
     public abstract BEPLType<T> clone();
+    
+    /**
+     * Returns the type of the variable
+     * based on what BEPL sees it as.
+     * @return The name of the type in BEPL.
+     */
+    public String getType() {
+    	return "BaseType";
+    }
 }
