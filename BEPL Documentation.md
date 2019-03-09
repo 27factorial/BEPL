@@ -1,4 +1,4 @@
-# BasIc English-like Programming Language #
+# Basic English-like Programming Language #
 
 ## ***NOTE: This documentation is nowhere near complete, and neither is the language. use both at your own risk.*** ##
 
