@@ -157,7 +157,7 @@ distinguish them from normal, mutable variables.
 #### Layout: ####
 
 ```
-<variable name> is  <type>
+<variable name> is (a/an) <type>
 <variable name> is <expression>
 
 <variable name> is (a/an) <type>
