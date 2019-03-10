@@ -71,6 +71,11 @@ public class BEPLCustomListener extends BEPLBaseListener {
         return total;
     }
     
+    /**
+     * Clones a variable to be assigned.
+     * @param ctx the current context.
+     * @return the cloned variable.
+     */
     private BEPLType<?> cloneVariableAssign(BEPLParser.AssignContext ctx) {
         String name = ctx.VAR(1).getText();
         BEPLType<?> toBeCloned = variables.get(name);
@@ -87,6 +92,11 @@ public class BEPLCustomListener extends BEPLBaseListener {
         return toBeCloned.clone();
     }
     
+    /**
+     * Clones a variable to be printed.
+     * @param ctx the current context.
+     * @return the cloned variable.
+     */
     private BEPLType<?> cloneVariablePrint(BEPLParser.PrintContext ctx) {
     	String name = ctx.VAR().getText();
     	BEPLType<?> toBeCloned = variables.get(name);
@@ -94,7 +104,7 @@ public class BEPLCustomListener extends BEPLBaseListener {
     	if (toBeCloned == null) {
     		String var0 = name;
     		throw new BEPLInterpreterException("`" + var0 + "`" +
-    										   "could not be printed because it does not exist!");
+    										   " could not be printed because it does not exist!");
     	}
     	
     	return toBeCloned.clone();
@@ -102,28 +112,6 @@ public class BEPLCustomListener extends BEPLBaseListener {
     
     public BEPLCustomListener() {
         variables = new HashMap<>();
-    }
-
-    @Override
-    public void enterProgram(BEPLParser.ProgramContext ctx) {
-        // DEBUG
-        if (debug) {
-            System.out.println("BEPL Version 0.1");
-            System.out.println("- Listener: BEPLCustomListener");
-            System.out.println("- Status: Starting.");
-            System.out.println();
-        }
-    }
-
-    @Override
-    public void exitProgram(BEPLParser.ProgramContext ctx) {
-        // DEBUG
-        if (debug) {
-            System.out.println("BEPL Version 0.1");
-            System.out.println("- Listener: BEPLCustomListener");
-            System.out.println("- Status: Finished.");
-            System.out.println();
-        }
     }
 
     @Override

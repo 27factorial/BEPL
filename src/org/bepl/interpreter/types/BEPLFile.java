@@ -7,20 +7,24 @@ import java.util.Scanner;
 
 public class BEPLFile {
     private ArrayList<String> lines;
+    public final String NAME;
     
     public BEPLFile() {
         lines = new ArrayList<String>();
+        NAME = "";
     }
     
     public BEPLFile(String path) throws FileNotFoundException {
-        Scanner file = new Scanner(new File(path));
+        File file = new File(path);
+        Scanner s = new Scanner(file);
         lines = new ArrayList<String>();
+        NAME = file.getName();
         
-        while (file.hasNextLine()) {
-            lines.add(file.nextLine() /*+ "\n"*/);
+        while (s.hasNextLine()) {
+            lines.add(s.nextLine() /*+ "\n"*/);
         }
         
-        file.close();
+        s.close();
     }
     
     /**
