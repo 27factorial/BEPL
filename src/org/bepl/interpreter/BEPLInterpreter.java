@@ -35,7 +35,7 @@ public class BEPLInterpreter {
             BEPLParser parser = new BEPLParser(tokens);
             parser.addParseListener(new BEPLCustomListener());
 
-            BEPLCustomListener.debug = debugEnabled;
+            BEPLCustomListener.DEBUG = debugEnabled;
 
             parser.program();
         } catch (IOException e) {

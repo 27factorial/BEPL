@@ -12,6 +12,7 @@
 
 package org.bepl.interpreter;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.antlr.v4.runtime.CharStream;
@@ -36,7 +37,7 @@ public class BEPLMain {
             BEPLParser parser = new BEPLParser(tokens);
             parser.addParseListener(new BEPLCustomListener());
 
-            BEPLCustomListener.debug = debugEnabled;
+            BEPLCustomListener.DEBUG = debugEnabled;
 
             parser.program();
         } catch (IOException e) {
@@ -67,7 +68,19 @@ public class BEPLMain {
                 runFile(filePath, false);
             }
         } else if (args[0].equals("-i") || args[0].equals("--interactive")) {
-            InteractiveInterpreter interactive = new InteractiveInterpreter();
+            InteractiveInterpreter interactive = null;
+            
+            if (args.length > 1) {
+                try {
+                    interactive = new InteractiveInterpreter(args[1]);
+                } catch (FileNotFoundException e) {
+                    System.err.println("The specified file could not be found. Opening with an empty file instead.");
+                    interactive = new InteractiveInterpreter();
+                }
+            } else {
+                interactive = new InteractiveInterpreter();
+            }
+            
             interactive.initialize();
             interactive.start();
         } else {

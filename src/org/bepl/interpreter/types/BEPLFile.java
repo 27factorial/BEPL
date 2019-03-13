@@ -7,10 +7,12 @@ import java.util.Scanner;
 
 public class BEPLFile {
     private ArrayList<String> lines;
+    private int length;
     public final String NAME;
     
     public BEPLFile() {
         lines = new ArrayList<String>();
+        length = 0;
         NAME = "";
     }
     
@@ -18,10 +20,11 @@ public class BEPLFile {
         File file = new File(path);
         Scanner s = new Scanner(file);
         lines = new ArrayList<String>();
+        length = 0;
         NAME = file.getName();
         
         while (s.hasNextLine()) {
-            lines.add(s.nextLine() /*+ "\n"*/);
+            lines.add(s.nextLine());
         }
         
         s.close();
@@ -33,6 +36,7 @@ public class BEPLFile {
      */
     public void addLine(String line) {
         lines.add(line);
+        length++;
     }
     
     /**
@@ -40,7 +44,14 @@ public class BEPLFile {
      * Useful for cleaning up syntax errors.
      */
     public void removeLine() {
-        lines.remove(lines.size() - 1);
+        if (lines.size() >= 1) {
+            lines.remove(lines.size() - 1);
+            length--;
+        }
+    }
+    
+    public int size() {
+        return length;
     }
     
     public String toString() {

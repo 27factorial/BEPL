@@ -13,12 +13,13 @@
 package org.bepl.interpreter;
 
 import java.util.HashMap;
+import java.math.BigDecimal;
 
 import org.bepl.interpreter.types.BEPLInterpreterException;
 import org.bepl.types.*;
 
 public class BEPLCustomListener extends BEPLBaseListener {
-    public static boolean debug = false;
+    public static boolean DEBUG = false;
     HashMap<String, BEPLType<?>> variables;
 
     /**
@@ -28,40 +29,40 @@ public class BEPLCustomListener extends BEPLBaseListener {
      *            the current context.
      * @return the result of the operator sequence.
      */
-    private int getOperationResult(BEPLParser.OperationContext ctx) {
+    private BigDecimal getOperationResult(BEPLParser.OperationContext ctx) {
         BEPLParser.OperationContext currentOperationCtx = ctx; // Beginning context. Keeps track of VAR(0)
         BEPLParser.OperationContext previousOperationCtx = ctx; // Previous context. Used to keep track of the operator.
 
-        int total = 0;
+        BigDecimal total = new BigDecimal("0");
 
         while (currentOperationCtx != null) {
-            int nextNum = Integer.parseInt(currentOperationCtx.INT(0).getText());
+            BigDecimal nextNum = new BigDecimal(currentOperationCtx.NUMBER(0).getText());
             String op = previousOperationCtx.OPERATOR().getText();
 
             if (currentOperationCtx == ctx) {
-                total = Integer.parseInt(currentOperationCtx.INT(0).getText());
+                total = new BigDecimal(currentOperationCtx.NUMBER(0).getText());
             } else {
                 if (op.equals("+"))
-                    total += nextNum;
+                    total = total.add(nextNum);
                 else if (op.equals("-"))
-                    total -= nextNum;
+                    total = total.subtract(nextNum);
                 else if (op.equals("*"))
-                    total *= nextNum;
+                    total = total.multiply(nextNum);
                 else if (op.equals("/"))
-                    total /= nextNum;
+                    total = total.divide(nextNum);
             }
 
             if (currentOperationCtx.operation() == null) {
-                nextNum = Integer.parseInt(currentOperationCtx.INT(1).getText());
+                nextNum = new BigDecimal(currentOperationCtx.NUMBER(1).getText());
                 op = currentOperationCtx.OPERATOR().getText();
                 if (op.equals("+"))
-                    total += nextNum;
+                    total = total.add(nextNum);
                 else if (op.equals("-"))
-                    total -= nextNum;
+                    total = total.subtract(nextNum);
                 else if (op.equals("*"))
-                    total *= nextNum;
+                    total = total.multiply(nextNum);
                 else if (op.equals("/"))
-                    total /= nextNum;
+                    total = total.divide(nextNum);
             }
 
             previousOperationCtx = currentOperationCtx;
@@ -120,11 +121,11 @@ public class BEPLCustomListener extends BEPLBaseListener {
         BEPLType<?> value;
 
         if (ctx.operation() != null) {
-            value = new BEPLInteger(getOperationResult(ctx.operation()));
+            value = new BEPLNumber(getOperationResult(ctx.operation()));
         } else if (ctx.STRING() != null) {
             value = new BEPLString(ctx.STRING().getText());
-        } else if (ctx.INT() != null) {
-            value = new BEPLInteger(Integer.parseInt(ctx.INT().getText()));
+        } else if (ctx.NUMBER() != null) {
+            value = new BEPLNumber(new BigDecimal(ctx.NUMBER().getText()));
         } else if (ctx.VAR(1) != null) {
             value = cloneVariableAssign(ctx);
         } else {
@@ -134,7 +135,7 @@ public class BEPLCustomListener extends BEPLBaseListener {
         variables.put(name, value);
 
         // DEBUG
-        if (debug) {
+        if (DEBUG) {
             System.out.println("variables updated. " + variables);
             System.out.println();
         }
@@ -143,7 +144,7 @@ public class BEPLCustomListener extends BEPLBaseListener {
     @Override
     public void enterPrint(BEPLParser.PrintContext ctx) {
         // DEBUG
-        if (debug) {
+        if (DEBUG) {
             System.out.print("BEPL PRINT: ");
         }
     }
@@ -156,14 +157,14 @@ public class BEPLCustomListener extends BEPLBaseListener {
             System.out.println(new BEPLString(ctx.STRING().getText()));
         } else if (ctx.VAR() != null) {
             System.out.println(cloneVariablePrint(ctx));
-        } else if (ctx.INT() != null) {
-            System.out.println(ctx.INT().getText());
+        } else if (ctx.NUMBER() != null) {
+            System.out.println(ctx.NUMBER().getText());
         } else {
         	throw new BEPLInterpreterException("Print statement is empty!");
         }
 
         // DEBUG
-        if (debug) {
+        if (DEBUG) {
             System.out.println();
         }
     }
